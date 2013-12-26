@@ -1,0 +1,3 @@
+# YahtzeeKata
+
+** TODO: Add description **
