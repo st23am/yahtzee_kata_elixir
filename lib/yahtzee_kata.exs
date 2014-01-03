@@ -1,7 +1,7 @@
 defmodule Yahtzee do
   def score('Pair', rolls) do
     Enum.sort(rolls)
-    |> find_pairs([])
+    |> score_pairs([])
   end
   
   def score(category, rolls) do
@@ -9,11 +9,11 @@ defmodule Yahtzee do
     |> sum
   end
 
-  def find_pairs([], pairs) do
+  defp score_pairs([], pairs) do
     2 * Enum.max(pairs)
   end
 
-  def find_pairs(rolls, pairs) do
+  defp score_pairs(rolls, pairs) do
     [head | tail] = rolls
     if Enum.count(rolls, &(&1 == head)) > 1 do
       found_pairs = Enum.concat([head], pairs)
