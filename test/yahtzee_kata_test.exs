@@ -1,5 +1,6 @@
 defmodule YahtzeeKataTest do
   use ExUnit.Case
+  import Yahtzee
 
   test "scoring Ones through sixes" do
     assert(Yahtzee.score('Ones',   [1,1,2,4,6]) == 2)
@@ -36,12 +37,15 @@ defmodule YahtzeeKataTest do
   end
 
   test "scoring two pair" do
+    assert(Yahtzee.score('Two pairs', [1,2,2,3,3]) == 10)
   end
 
   test "scoring two pair with no match" do
+    assert(Yahtzee.score('Two pairs', [1,2,3,4,5]) == 0)
   end
 
-  test "scoring two pair with multiple matches uses highest" do
+  test "scoring two pair with with one match" do
+    assert(Yahtzee.score('Two pairs', [1,4,3,4,5]) == 0)
   end
 
 end
