@@ -1,19 +1,16 @@
 defmodule Yahtzee do
 
   def score('Pair', rolls) do
-    Enum.sort(rolls)
-    |> find_pairs([])
-    |> score_pairs
+    find_pairs(rolls, [])
+    |> score_pair
     |> sum
   end
 
   def score('Two pairs', rolls) do
-    pairs = find_pairs(rolls, [])
-    if Enum.count(pairs) > 1 do
-     sum(Enum.uniq(pairs)) * 2
-    else 
-      0
-    end
+    find_pairs(rolls, [])
+    |> Enum.uniq
+    |> score_pairs
+    |> sum
   end
 
   def score(category, rolls) do
@@ -21,21 +18,22 @@ defmodule Yahtzee do
     |> sum
   end
   
-  defp score_pairs(pairs), do: 2 * Enum.max(pairs)
+  defp score_pair(pairs), do: 2 * Enum.max(pairs)
+
+  defp score_pairs([pair1, pair2]), do: [pair1, pair2, pair1, pair2]
+
+  defp score_pairs([_]), do: 0
 
   defp find_pairs([], []), do: [0]
 
   defp find_pairs([], pairs), do: pairs
 
   defp find_pairs([head | tail], pairs) do
-    if Enum.count([head | tail], &(&1 == head)) > 1 do
-      found_pairs = Enum.concat([head], pairs)
-    else
-      found_pairs = pairs
-    end
-    find_pairs(tail, found_pairs)
+    matches = Enum.reject(tail, &(&1 != head))
+    new_pairs = Enum.concat(matches, pairs)
+    find_pairs(tail, new_pairs)
   end
-
+  
   defp match_roll([], _roll_to_match, matches), do: matches
 
   defp match_roll([head | tail], roll_to_match, matches) when head == roll_to_match do
