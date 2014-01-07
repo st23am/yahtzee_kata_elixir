@@ -9,8 +9,8 @@ defmodule Yahtzee do
 
   def score('Two pairs', rolls) do
     pairs = find_pairs(rolls, [])
-    if Enum.count(pairs, &(&1)) > 1 do
-     sum(pairs) * 2
+    if Enum.count(pairs) > 1 do
+     sum(Enum.uniq(pairs)) * 2
     else 
       0
     end

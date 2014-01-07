@@ -48,4 +48,7 @@ defmodule YahtzeeKataTest do
     assert(Yahtzee.score('Two pairs', [1,4,3,4,5]) == 0)
   end
 
+  test "scoring two pair with one pair and three of a kind" do
+    assert(Yahtzee.score('Two pairs', [5,4,4,4,5]) == 18)
+  end
 end
