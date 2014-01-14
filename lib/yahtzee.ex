@@ -9,13 +9,17 @@ defmodule Yahtzee do
   def score('Two pairs', rolls) do
     find_pairs(rolls)
     |> find_two_pair
-    |> score_two_pairs
-    |> sum
+    |> score_number_of_a_kind(2)
   end
 
   def score('Three of a kind', rolls) do
-    find_three_of_a_kind(rolls)
-    |> score_pairs
+    find_number_of_a_kind(rolls, 3)
+    |> score_number_of_a_kind(3)
+  end
+
+  def score('Four of a kind', rolls) do
+    find_number_of_a_kind(rolls, 4)
+    |> score_number_of_a_kind(4)
   end
 
   def score(category, rolls) do
@@ -31,23 +35,18 @@ defmodule Yahtzee do
   defp find_two_pair([0]),   do: []
   defp find_two_pair(pairs), do: pairs
 
-  defp find_three_of_a_kind(rolls) do
-    lc number inlist rolls, Enum.count(rolls, &(&1 == number)) == 3, do: number
+  defp find_number_of_a_kind(rolls, number) do
+    lc value inlist rolls, Enum.count(rolls, &(&1 == value)) >= number, do: value
   end
   
   defp pick_highest_pair([]),    do: [0]
   defp pick_highest_pair(pairs), do: Enum.max(pairs) * 2
   
-  defp score_pairs([]), do: 0
-  defp score_pairs([_]), do: 0
-  defp score_pairs(pairs) do
-    sum(pairs)
-  end
-
-  defp score_two_pairs([]),   do: 0
-  defp score_two_pairs(pairs) do
+  defp score_number_of_a_kind([]), do: 0
+  defp score_number_of_a_kind(pairs, number) do
     Enum.uniq(pairs)
-    |> Enum.map(&(&1 * 2))
+    |> Enum.map(&(&1 * number))
+    |> sum
   end
 
   defp match_roll([], _roll_to_match, matches), do: matches

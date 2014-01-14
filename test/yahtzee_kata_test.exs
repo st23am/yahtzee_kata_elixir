@@ -59,4 +59,16 @@ defmodule YahtzeeKataTest do
   test "scoring three of a kind with out a match" do
     assert(Yahtzee.score('Three of a kind', [5,4,2,4,5]) == 0)
   end
+  
+  test "scoring three of a kind with 4 matches" do
+    assert(Yahtzee.score('Three of a kind', [4,4,4,4,5]) == 12)
+  end
+
+  test "scoring four of a kind" do
+    assert(Yahtzee.score('Four of a kind', [4,4,4,4,5]) == 16)
+  end
+
+  test "scoring four of a kind with out a match" do
+    assert(Yahtzee.score('Four of a kind', [5,4,2,4,5]) == 0)
+  end
 end
