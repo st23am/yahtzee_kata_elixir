@@ -10,7 +10,7 @@ defmodule YahtzeeKataTest do
     assert(Yahtzee.score('Fives',  [1,5,3,5,4]) == 10)
     assert(Yahtzee.score('Sixes',  [1,6,4,5,6]) == 12)
   end
-  
+
   test "Ones through Sixes with no match" do
     assert(Yahtzee.score('Ones',   [2,3,3,4,6]) == 0)
     assert(Yahtzee.score('Twos',   [1,3,3,1,4]) == 0)
@@ -23,11 +23,11 @@ defmodule YahtzeeKataTest do
   test "scoring simple pairs" do
     assert(Yahtzee.score('Pair', [2,1,2,4,5]) == 4)
   end
-  
+
   test 'scoring highest pair only' do
     assert(Yahtzee.score('Pair', [2,1,2,4,4]) == 8)
   end
-  
+
   test 'highest pair more than 2 matches' do
     assert(Yahtzee.score('Pair', [2,4,2,4,4]) == 8)
   end
@@ -50,5 +50,13 @@ defmodule YahtzeeKataTest do
 
   test "scoring two pair with one pair and three of a kind" do
     assert(Yahtzee.score('Two pairs', [5,4,4,4,5]) == 18)
+  end
+
+  test "scoring three of a kind" do
+    assert(Yahtzee.score('Three of a kind', [5,4,4,4,5]) == 12)
+  end
+
+  test "scoring three of a kind with out a match" do
+    assert(Yahtzee.score('Three of a kind', [5,4,2,4,5]) == 0)
   end
 end
