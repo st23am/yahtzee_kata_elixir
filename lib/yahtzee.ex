@@ -21,7 +21,13 @@ defmodule Yahtzee do
     find_number_of_a_kind(rolls, 4)
     |> score_number_of_a_kind(4)
   end
-  
+
+  def score('Full house', rolls) do
+    find_number_of_a_kind(rolls, 3)
+    |> build_full_house(rolls)
+    |> score_full_house
+  end
+
   def score('Small straight', rolls) do
     Enum.sort(rolls)
     |> score_small_straight
@@ -37,28 +43,37 @@ defmodule Yahtzee do
     |> sum
   end
 
+  defp build_full_house([], rolls), do: 0
+  defp build_full_house([x,x,x,x], rolls), do: 0
+  defp build_full_house([x,x,x,x,x], rolls), do: 0
+  defp build_full_house([x,x,x], rolls), do: Enum.partition(rolls, &(&1 == x))
+  
+  defp score_full_house(0), do: 0
+  defp score_full_house({[x,x,x], [y,y]}), do: sum([x,x,x,y,y])
+  defp score_full_house({[x,x,x], [_,_]}), do: 0
+
   defp find_pairs(rolls) do
     lc number inlist rolls, Enum.count(rolls, &(&1 == number)) > 1, do: number
+  end
+
+  defp find_number_of_a_kind(rolls, number) do
+    lc value inlist rolls, Enum.count(rolls, &(&1 == value)) >= number, do: value
   end
 
   defp find_two_pair([_,_]), do: []
   defp find_two_pair([0]),   do: []
   defp find_two_pair(pairs), do: pairs
 
-  defp find_number_of_a_kind(rolls, number) do
-    lc value inlist rolls, Enum.count(rolls, &(&1 == value)) >= number, do: value
-  end
-  
   defp pick_highest_pair([]),    do: [0]
   defp pick_highest_pair(pairs), do: Enum.max(pairs) * 2
-  
+
   defp score_number_of_a_kind([]), do: 0
   defp score_number_of_a_kind(pairs, number) do
     Enum.uniq(pairs)
     |> Enum.map(&(&1 * number))
     |> sum
   end
-  
+
   defp score_small_straight([1,2,3,4,5]), do: 15
   defp score_small_straight([_, _, _, _, _]), do: 0
 

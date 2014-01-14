@@ -95,4 +95,16 @@ defmodule YahtzeeKataTest do
   test "scoring a large straight with no match" do
     assert(Yahtzee.score('Large straight', [5,2,3,4,3]) == 0)
   end
+  
+  test "scoring a Full House with a match" do
+    assert(Yahtzee.score('Full house', [5,5,1,1,1]) == 13)
+  end
+  
+  test "scoring a Full House with 5 of a kind" do
+    assert(Yahtzee.score('Full house', [5,5,5,5,5]) == 0)
+  end
+
+  test "scoring a Full House with no match" do
+    assert(Yahtzee.score('Full house', [1,1,2,2,3]) == 0)
+  end
 end
