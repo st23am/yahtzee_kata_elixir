@@ -71,4 +71,28 @@ defmodule YahtzeeKataTest do
   test "scoring four of a kind with out a match" do
     assert(Yahtzee.score('Four of a kind', [5,4,2,4,5]) == 0)
   end
+  
+  test "scoring a small straight with a match" do
+    assert(Yahtzee.score('Small straight', [1,2,3,4,5]) == 15)
+  end
+  
+  test "scoring a small straight out of order" do
+    assert(Yahtzee.score('Small straight', [5,2,1,4,3]) == 15)
+  end
+
+  test "scoring a small straight with no match" do
+    assert(Yahtzee.score('Small straight', [5,2,3,4,3]) == 0)
+  end
+
+  test "scoring a large straight with a match" do
+    assert(Yahtzee.score('Large straight', [2,3,4,5,6]) == 20)
+  end
+  
+  test "scoring a large straight out of order" do
+    assert(Yahtzee.score('Large straight', [5,6,2,4,3]) == 20)
+  end
+
+  test "scoring a large straight with no match" do
+    assert(Yahtzee.score('Large straight', [5,2,3,4,3]) == 0)
+  end
 end

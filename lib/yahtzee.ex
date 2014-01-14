@@ -21,6 +21,16 @@ defmodule Yahtzee do
     find_number_of_a_kind(rolls, 4)
     |> score_number_of_a_kind(4)
   end
+  
+  def score('Small straight', rolls) do
+    Enum.sort(rolls)
+    |> score_small_straight
+  end
+
+  def score('Large straight', rolls) do
+    Enum.sort(rolls)
+    |> score_large_straight
+  end
 
   def score(category, rolls) do
     match_roll(rolls, category_to_number(category), [])
@@ -48,6 +58,12 @@ defmodule Yahtzee do
     |> Enum.map(&(&1 * number))
     |> sum
   end
+  
+  defp score_small_straight([1,2,3,4,5]), do: 15
+  defp score_small_straight([_, _, _, _, _]), do: 0
+
+  defp score_large_straight([2,3,4,5,6]), do: 20
+  defp score_large_straight([_, _, _, _, _]), do: 0
 
   defp match_roll([], _roll_to_match, matches), do: matches
 
