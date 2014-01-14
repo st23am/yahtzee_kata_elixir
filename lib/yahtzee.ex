@@ -37,15 +37,20 @@ defmodule Yahtzee do
     Enum.sort(rolls)
     |> score_large_straight
   end
+  
+  def score('Yahtzee', [x,x,x,x,x]), do: 50
+  def score('Yahtzee', _), do: 0
+
+  def score('Chance', rolls), do: sum(rolls)
 
   def score(category, rolls) do
     match_roll(rolls, category_to_number(category), [])
     |> sum
   end
 
-  defp build_full_house([], rolls), do: 0
-  defp build_full_house([x,x,x,x], rolls), do: 0
-  defp build_full_house([x,x,x,x,x], rolls), do: 0
+  defp build_full_house([], _ ), do: 0
+  defp build_full_house([x,x,x,x], _ ), do: 0
+  defp build_full_house([x,x,x,x,x], _ ), do: 0
   defp build_full_house([x,x,x], rolls), do: Enum.partition(rolls, &(&1 == x))
   
   defp score_full_house(0), do: 0
@@ -67,7 +72,6 @@ defmodule Yahtzee do
   defp pick_highest_pair([]),    do: [0]
   defp pick_highest_pair(pairs), do: Enum.max(pairs) * 2
 
-  defp score_number_of_a_kind([]), do: 0
   defp score_number_of_a_kind(pairs, number) do
     Enum.uniq(pairs)
     |> Enum.map(&(&1 * number))

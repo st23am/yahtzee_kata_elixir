@@ -107,4 +107,16 @@ defmodule YahtzeeKataTest do
   test "scoring a Full House with no match" do
     assert(Yahtzee.score('Full house', [1,1,2,2,3]) == 0)
   end
+
+  test "scoring a Yahtzee with match" do
+    assert(Yahtzee.score('Yahtzee', [6,6,6,6,6]) == 50)
+  end
+
+  test "scoring a Yahtzee with no match" do
+    assert(Yahtzee.score('Yahtzee', [1,1,2,2,3]) == 0)
+  end
+
+  test "scoring a Chance" do
+    assert(Yahtzee.score('Chance', [1,1,2,2,3]) == 9)
+  end
 end
