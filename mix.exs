@@ -5,6 +5,7 @@ defmodule YahtzeeKata.Mixfile do
     [ app: :yahtzee_kata,
       version: "0.0.1",
       elixir: "~> 0.12",
+      escript_main_module: YahtzeeKata.CLI,
       deps: deps ]
   end
 
